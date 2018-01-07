@@ -17,19 +17,19 @@ void Quad::clear()
 {
 	_objects.clear();
 	
-	if (_q1 != NULL) {
+	if (_q1 != nullptr) {
 		_q1->clear();
 	}
 	
-	if (_q2 != NULL) {
+	if (_q2 != nullptr) {
 		_q2->clear();
 	}
 
-	if (_q3 != NULL) {
+	if (_q3 != nullptr) {
 		_q3->clear();
 	}
 
-	if (_q4 != NULL) {
+	if (_q4 != nullptr) {
 		_q4->clear();
 	}
 }
@@ -145,18 +145,19 @@ void Quad::insert(Circunference c)
 
 			return;
 		}
+	}
 
 		//It adds the circunferent to the parent node.
 		_objects.push_back(c);
 
 		//Checks if the max object limit has been exceded.
-		if (_objects.size > MAX_OBJECTS) {
-			if (_q1 = nullptr) {
+		if (_objects.size() > MAX_OBJECTS) {
+			if (_q1 == nullptr) {
 				split();
 			}
 
 			for (Circunference cir : _objects) {
-				quadrant = getQuadrant(cir);
+				int quadrant = getQuadrant(cir);
 				
 				if (quadrant != -1) {
 					switch (quadrant) {
@@ -185,12 +186,11 @@ void Quad::insert(Circunference c)
 			_objects = fatherObjects;
 		}
 	}
-}
 
 /*
-* Return all circunference that collide with a given ray.
+* Return all circunference within the quadrant of the ray.
 */
-list<Circunference> Quad::retrieveAll(pair<int, int> ray)
+void Quad::retrieve(list<Circunference> * returnObjects, pair<int, int> ray)
 {
 	int quadrant = getQuadrant(ray);
 	
@@ -198,20 +198,22 @@ list<Circunference> Quad::retrieveAll(pair<int, int> ray)
 		
 		switch (quadrant) {
 		case 1:
-			return _q1->retrieveAll(ray);
+			_q1->retrieve(returnObjects, ray);
 		case 2:
-			return _q2->retrieveAll(ray);
+			_q2->retrieve(returnObjects, ray);
 		case 3:
-			return _q3->retrieveAll(ray);
+			_q3->retrieve(returnObjects, ray);
 		case 4:
-			return _q4->retrieveAll(ray);
+			_q4->retrieve(returnObjects, ray);
 		}
 	}
 
-
-
-
-	return list<Circunference>();
+	for(Circunference c : _objects) 
+	{
+		returnObjects->push_back(c);
+	}
+	
+	return;
 }
 
 

@@ -25,7 +25,6 @@ public:
 	int getQuadrant(Circunference c);
 	int getQuadrant(pair<int, int> ray);
 	void insert(Circunference c);
-	list<Circunference> retrieveAll(pair<int, int> ray);
-	Circunference retrieveClosest(pair<int, int> ray);
+	void retrieve(list<Circunference> * returnObjects, pair<int, int> ray);
 };
 
